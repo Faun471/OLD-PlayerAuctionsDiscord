@@ -3,6 +3,7 @@ package me.faun.playerauctiondiscord.listeners;
 import com.olziedev.playerauctions.api.events.PlayerAuctionSellEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.util.DiscordUtil;
+import me.faun.playerauctiondiscord.PlayerAuctionDiscord;
 import me.faun.playerauctiondiscord.utils.RandomUtils;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -23,24 +24,38 @@ public class AuctionSellEvent implements Listener {
         ItemStack itemStack = event.getPlayerAuction().getItem();
         String item = RandomUtils.capitalizeString(itemStack.getType().toString());
 
-        if (itemStack.hasItemMeta() && itemStack.getItemMeta() instanceof PotionMeta) {
+        if (itemStack.getItemMeta() instanceof PotionMeta) {
             if (itemStack.getType() == Material.TIPPED_ARROW) {
                 PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
                 PotionType potionType = meta.getBasePotionData().getType();
-                item = RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType));
-
+                if (potionType.getEffectType() != null){
+                    item = "Arrow of " + RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType));
+                } else {
+                    if (potionType.equals(PotionType.UNCRAFTABLE)){
+                        item = "Uncraftable Tipped Arrow";
+                    }
+                    else {
+                        item = "Tipped Arrow";
+                    }
+                }
                 eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_tipped_arrow_head,e_tint:100:"+ RandomUtils.colorToHex(meta, potionType) + "/h_250/tipped_arrow_base.png");
-                eb.setAuthor(event.getSeller().getName()+ " is selling Arrow of " + item + " for $" + event.getPlayerAuction().getPrice(), null,
+                eb.setAuthor(event.getSeller().getName()+ " is selling " + item + " for $" + event.getPlayerAuction().getPrice(), null,
                         "https://crafatar.com/avatars/"+ event.getSeller().getUniqueId());
+                System.out.println("https://res.cloudinary.com/pryormc/image/upload/l_tipped_arrow_head,e_tint:100:"+ RandomUtils.colorToHex(meta, potionType) + "/h_250/tipped_arrow_base.png");
             }
             else {
                 PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
                 PotionType potionType = meta.getBasePotionData().getType();
-                item = RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType));
+                if (potionType.getEffectType() != null)
+                    item = RandomUtils.capitalizeString(itemStack.getType().toString()) + " of " + RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType));
+                else {
+                    item = RandomUtils.prettierEffectType(potionType) + " " + RandomUtils.capitalizeString(itemStack.getType().toString());
+                }
 
                 eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + RandomUtils.colorToHex(meta, potionType) + "/h_250/" + itemStack.getType() + ".png");
-                eb.setAuthor(event.getSeller().getName()+ " is selling " + item + " of " + RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType)) + " for $" + event.getPlayerAuction().getPrice(), null,
+                eb.setAuthor(event.getSeller().getName()+ " is selling " + item + " for $" + event.getPlayerAuction().getPrice(), null,
                         "https://crafatar.com/avatars/"+ event.getSeller().getUniqueId());
+                System.out.println("https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + RandomUtils.colorToHex(meta, potionType) + "/h_250/" + itemStack.getType() + ".png");
             }
         }
         else {
@@ -58,6 +73,6 @@ public class AuctionSellEvent implements Listener {
         eb.addField("Price", String.valueOf(event.getPlayerAuction().getPrice()), false);
         eb.setFooter("Auction ID: " + event.getPlayerAuction().getID());
 
-        DiscordUtil.getTextChannelById("883610558329421854").sendMessage(eb.build()).queue();
+        DiscordUtil.getTextChannelById(PlayerAuctionDiscord.getInstance().getConfig().getString("channel")).sendMessage(eb.build()).queue();
     }
 }

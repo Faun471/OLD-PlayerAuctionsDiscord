@@ -3,6 +3,7 @@ package me.faun.playerauctiondiscord.listeners;
 import com.olziedev.playerauctions.api.events.PlayerAuctionRemoveEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.util.DiscordUtil;
+import me.faun.playerauctiondiscord.PlayerAuctionDiscord;
 import me.faun.playerauctiondiscord.utils.RandomUtils;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -56,6 +57,6 @@ public class AuctionRemoveEvent implements Listener {
         eb.addField("Price", String.valueOf(event.getPlayerAuction().getPrice()), false);
         eb.setFooter("Auction ID: " + event.getPlayerAuction().getID());
 
-        DiscordUtil.getTextChannelById("860650048407601182").sendMessage(eb.build()).queue();
+        DiscordUtil.getTextChannelById(PlayerAuctionDiscord.getInstance().getConfig().getString("channel")).sendMessage(eb.build()).queue();
     }
 }

@@ -3,6 +3,7 @@ package me.faun.playerauctiondiscord.listeners;
 import com.olziedev.playerauctions.api.events.PlayerAuctionBuyEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.util.DiscordUtil;
+import me.faun.playerauctiondiscord.PlayerAuctionDiscord;
 import me.faun.playerauctiondiscord.utils.RandomUtils;
 
 import org.bukkit.Material;
@@ -29,7 +30,7 @@ public class AuctionBuyEvent implements Listener {
                 item = RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType));
 
                 eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_tipped_arrow_head,e_tint:100:"+ RandomUtils.colorToHex(meta, potionType) +"/h_250/tipped_arrow_base.png");
-                eb.setAuthor(event.getBuyer().getName()+ " bought " + item + "for $" + event.getPlayerAuction().getPrice(), null,
+                eb.setAuthor(event.getBuyer().getName()+ " bought Arrow of" + item + "for $" + event.getPlayerAuction().getPrice(), null,
                         "https://crafatar.com/avatars/"+ event.getBuyer().getUniqueId());
             }
             else {
@@ -38,7 +39,7 @@ public class AuctionBuyEvent implements Listener {
                 item = RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType));
 
                 eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + RandomUtils.colorToHex(meta, potionType) + "/h_250/" + itemStack.getType() + ".png");
-                eb.setAuthor(event.getBuyer().getName()+ " bought " + item + "for $" + event.getPlayerAuction().getPrice(), null,
+                eb.setAuthor(event.getBuyer().getName()+ " bought " + itemStack + " of " + item + " for $" + event.getPlayerAuction().getPrice(), null,
                         "https://crafatar.com/avatars/"+ event.getBuyer().getUniqueId());
             }
         }
@@ -54,11 +55,12 @@ public class AuctionBuyEvent implements Listener {
         eb.addField("Seller", event.getPlayerAuction().getAuctionPlayer().getName(), true);
         eb.addField("Buyer", event.getBuyer().getName(), true);
         eb.addBlankField(true);
-        eb.addField("Item", item, false);
-        eb.addField("Amount", String.valueOf(event.getPlayerAuction().getItem().getAmount()), false);
+        eb.addField("Item", item, true);
+        eb.addField("Amount", String.valueOf(event.getPlayerAuction().getItem().getAmount()), true);
+        eb.addBlankField(true);
         eb.addField("Price", String.valueOf(event.getPlayerAuction().getPrice()), false);
         eb.setFooter("Auction ID: " + event.getPlayerAuction().getID());
 
-        DiscordUtil.getTextChannelById("860650048407601182").sendMessage(eb.build()).queue();
+        DiscordUtil.getTextChannelById(PlayerAuctionDiscord.getInstance().getConfig().getString("channel")).sendMessage(eb.build()).queue();
     }
 }

@@ -19,6 +19,7 @@ public final class PlayerAuctionDiscord extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new AuctionBuyEvent(), this);
         Bukkit.getPluginManager().registerEvents(new AuctionRemoveEvent(), this);
         instance = this;
+        saveDefaultConfig();
     }
 
     @Override
