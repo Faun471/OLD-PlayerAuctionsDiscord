@@ -19,34 +19,42 @@ public class AuctionBuyEvent implements Listener {
     @EventHandler
     public void onBuyEvent(PlayerAuctionBuyEvent event){
         EmbedBuilder eb = new EmbedBuilder();
-        ItemStack item = event.getPlayerAuction().getItem();
+        ItemStack itemStack = event.getPlayerAuction().getItem();
+        String item = RandomUtils.capitalizeString(itemStack.getType().toString());
 
-        if (item.hasItemMeta() && item.getItemMeta() instanceof PotionMeta) {
-            if (item.getType() == Material.TIPPED_ARROW) {
-                PotionMeta meta = (PotionMeta) item.getItemMeta();
+        if (itemStack.hasItemMeta() && itemStack.getItemMeta() instanceof PotionMeta) {
+            if (itemStack.getType() == Material.TIPPED_ARROW) {
+                PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
                 PotionType potionType = meta.getBasePotionData().getType();
+                item = RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType));
+
                 eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_tipped_arrow_head,e_tint:100:"+ RandomUtils.colorToHex(meta, potionType) +"/h_250/tipped_arrow_base.png");
-                System.out.println("https://res.cloudinary.com/pryormc/image/upload/l_tipped_arrow_head,e_tint:100:"+ RandomUtils.colorToHex(meta, potionType) +"/h_250/tipped_arrow_base.png");
+                eb.setAuthor(event.getBuyer().getName()+ " bought " + item + "for $" + event.getPlayerAuction().getPrice(), null,
+                        "https://crafatar.com/avatars/"+ event.getBuyer().getUniqueId());
             }
             else {
-                PotionMeta meta = (PotionMeta) item.getItemMeta();
+                PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
                 PotionType potionType = meta.getBasePotionData().getType();
-                eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + RandomUtils.colorToHex(meta, potionType) + "/h_250/" + item.getType() + ".png");
-                System.out.println("https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + RandomUtils.colorToHex(meta, potionType) + "/h_250/" + item.getType() + ".png");
+                item = RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType));
+
+                eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + RandomUtils.colorToHex(meta, potionType) + "/h_250/" + itemStack.getType() + ".png");
+                eb.setAuthor(event.getBuyer().getName()+ " bought " + item + "for $" + event.getPlayerAuction().getPrice(), null,
+                        "https://crafatar.com/avatars/"+ event.getBuyer().getUniqueId());
             }
         }
         else {
-            eb.setThumbnail("https://ik.imagekit.io/pryormc/"+ item.getType().toString().toLowerCase() +".png?tr=w-128,h-128");
+            eb.setThumbnail("https://ik.imagekit.io/pryormc/"+ itemStack.getType().toString().toLowerCase() +".png?tr=w-128,h-128");
+
         }
 
-        eb.setColor(new Color(0x4287f5)); //blue
-        eb.setAuthor(event.getBuyer().getName()+ " bought " + RandomUtils.capitalizeString(event.getPlayerAuction().getItem().getType().toString()) + "for $" + event.getPlayerAuction().getPrice(), null,
+        eb.setAuthor(event.getBuyer().getName()+ " bought " + item + "for $" + event.getPlayerAuction().getPrice(), null,
                 "https://crafatar.com/avatars/"+ event.getBuyer().getUniqueId());
+        eb.setColor(new Color(0x48f542));
         eb.setTitle("Auction Information:",null);
         eb.addField("Seller", event.getPlayerAuction().getAuctionPlayer().getName(), true);
         eb.addField("Buyer", event.getBuyer().getName(), true);
         eb.addBlankField(true);
-        eb.addField("Item", RandomUtils.capitalizeString(event.getPlayerAuction().getItem().getType().toString()), false);
+        eb.addField("Item", item, false);
         eb.addField("Amount", String.valueOf(event.getPlayerAuction().getItem().getAmount()), false);
         eb.addField("Price", String.valueOf(event.getPlayerAuction().getPrice()), false);
         eb.setFooter("Auction ID: " + event.getPlayerAuction().getID());

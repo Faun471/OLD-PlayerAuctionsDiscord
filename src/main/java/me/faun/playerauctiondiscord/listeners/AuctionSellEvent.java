@@ -21,38 +21,44 @@ public class AuctionSellEvent implements Listener {
     @EventHandler
     public void onSellEvent(PlayerAuctionSellEvent event){
         EmbedBuilder eb = new EmbedBuilder();
-        ItemStack item = event.getPlayerAuction().getItem();
+        ItemStack itemStack = event.getPlayerAuction().getItem();
+        String item = RandomUtils.capitalizeString(itemStack.getType().toString());
 
-        if (item.hasItemMeta() && item.getItemMeta() instanceof PotionMeta) {
-            if (item.getType() == Material.TIPPED_ARROW) {
-                PotionMeta meta = (PotionMeta) item.getItemMeta();
+        if (itemStack.hasItemMeta() && itemStack.getItemMeta() instanceof PotionMeta) {
+            if (itemStack.getType() == Material.TIPPED_ARROW) {
+                PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
                 PotionType potionType = meta.getBasePotionData().getType();
+                item = RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType));
+
                 eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_tipped_arrow_head,e_tint:100:"+ RandomUtils.colorToHex(meta, potionType) + "/h_250/tipped_arrow_base.png");
-                eb.setAuthor(event.getSeller().getName()+ " is selling Arrow of " + RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType)) + " for $" + event.getPlayerAuction().getPrice(), null,
+                eb.setAuthor(event.getSeller().getName()+ " is selling Arrow of " + item + " for $" + event.getPlayerAuction().getPrice(), null,
                         "https://crafatar.com/avatars/"+ event.getSeller().getUniqueId());
             }
             else {
-                PotionMeta meta = (PotionMeta) item.getItemMeta();
+                PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
                 PotionType potionType = meta.getBasePotionData().getType();
-                eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + RandomUtils.colorToHex(meta, potionType) + "/h_250/" + item.getType() + ".png");
-                eb.setAuthor(event.getSeller().getName()+ " is selling " + RandomUtils.capitalizeString(item.getType().toString()) + " of " + RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType)) + " for $" + event.getPlayerAuction().getPrice(), null,
+                item = RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType));
+
+                eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + RandomUtils.colorToHex(meta, potionType) + "/h_250/" + itemStack.getType() + ".png");
+                eb.setAuthor(event.getSeller().getName()+ " is selling " + item + " of " + RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType)) + " for $" + event.getPlayerAuction().getPrice(), null,
                         "https://crafatar.com/avatars/"+ event.getSeller().getUniqueId());
             }
         }
         else {
-            eb.setThumbnail("https://ik.imagekit.io/pryormc/"+ item.getType().toString().toLowerCase() +".png?tr=w-128,h-128");
-            eb.setAuthor(event.getSeller().getName()+ " is selling " + RandomUtils.capitalizeString(item.getType().toString()) + " for $" + event.getPlayerAuction().getPrice(), null,
-                    "https://crafatar.com/avatars/"+ event.getSeller().getUniqueId());
-        }
+            eb.setThumbnail("https://ik.imagekit.io/pryormc/"+ itemStack.getType().toString().toLowerCase() +".png?tr=w-128,h-128");
 
-        eb.setColor(new Color(0x4287f5)); //blue
+        }
+        eb.setAuthor(event.getSeller().getName()+ " is selling " + item + " for $" + event.getPlayerAuction().getPrice(), null,
+                "https://crafatar.com/avatars/"+ event.getSeller().getUniqueId());
+        eb.setColor(new Color(0x4287f5));
         eb.setTitle("Auction Information:",null);
         eb.addField("Seller", event.getSeller().getName(), false);
-        eb.addField("Item", RandomUtils.capitalizeString(item.getType().toString()), true);
-        eb.addField("Amount", String.valueOf(item.getAmount()), true);
+        eb.addField("Item", item, true);
+        eb.addField("Amount", String.valueOf(itemStack.getAmount()), true);
         eb.addBlankField(true);
         eb.addField("Price", String.valueOf(event.getPlayerAuction().getPrice()), false);
         eb.setFooter("Auction ID: " + event.getPlayerAuction().getID());
+
         DiscordUtil.getTextChannelById("883610558329421854").sendMessage(eb.build()).queue();
     }
 }
