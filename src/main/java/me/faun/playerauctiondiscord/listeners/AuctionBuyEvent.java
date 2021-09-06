@@ -4,16 +4,13 @@ import com.olziedev.playerauctions.api.events.PlayerAuctionBuyEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import me.faun.playerauctiondiscord.PlayerAuctionDiscord;
-import me.faun.playerauctiondiscord.utils.RandomUtils;
+import me.faun.playerauctiondiscord.utils.StringUtils;
 
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionType;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class AuctionBuyEvent implements Listener {
 
@@ -21,34 +18,10 @@ public class AuctionBuyEvent implements Listener {
     public void onBuyEvent(PlayerAuctionBuyEvent event){
         EmbedBuilder eb = new EmbedBuilder();
         ItemStack itemStack = event.getPlayerAuction().getItem();
-        String item = RandomUtils.capitalizeString(itemStack.getType().toString());
+        String item = StringUtils.itemName(itemStack);
 
-        if (itemStack.hasItemMeta() && itemStack.getItemMeta() instanceof PotionMeta) {
-            if (itemStack.getType() == Material.TIPPED_ARROW) {
-                PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
-                PotionType potionType = meta.getBasePotionData().getType();
-                item = RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType));
-
-                eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_tipped_arrow_head,e_tint:100:"+ RandomUtils.colorToHex(meta, potionType) +"/h_250/tipped_arrow_base.png");
-                eb.setAuthor(event.getBuyer().getName()+ " bought Arrow of" + item + "for $" + event.getPlayerAuction().getPrice(), null,
-                        "https://crafatar.com/avatars/"+ event.getBuyer().getUniqueId());
-            }
-            else {
-                PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
-                PotionType potionType = meta.getBasePotionData().getType();
-                item = RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType));
-
-                eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + RandomUtils.colorToHex(meta, potionType) + "/h_250/" + itemStack.getType() + ".png");
-                eb.setAuthor(event.getBuyer().getName()+ " bought " + itemStack + " of " + item + " for $" + event.getPlayerAuction().getPrice(), null,
-                        "https://crafatar.com/avatars/"+ event.getBuyer().getUniqueId());
-            }
-        }
-        else {
-            eb.setThumbnail("https://ik.imagekit.io/pryormc/"+ itemStack.getType().toString().toLowerCase() +".png?tr=w-128,h-128");
-
-        }
-
-        eb.setAuthor(event.getBuyer().getName()+ " bought " + item + "for $" + event.getPlayerAuction().getPrice(), null,
+        eb.setThumbnail(StringUtils.getLink(itemStack));
+        eb.setAuthor(event.getBuyer().getName()+ " bought " + item + " for $" + event.getPlayerAuction().getPrice(), null,
                 "https://crafatar.com/avatars/"+ event.getBuyer().getUniqueId());
         eb.setColor(new Color(0x48f542));
         eb.setTitle("Auction Information:",null);

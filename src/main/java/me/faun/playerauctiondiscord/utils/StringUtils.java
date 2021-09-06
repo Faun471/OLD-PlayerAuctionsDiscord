@@ -1,15 +1,11 @@
 package me.faun.playerauctiondiscord.utils;
 
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
-import java.awt.Color;
-
-public class RandomUtils {
-    //Yoinked from InteractiveChatDiscordSRVAddon
-    public static final Color WATER_COLOR = Color.decode("#385dc6");
-    public static final Color UNCRAFTABLE_COLOR = Color.decode("#ff5bde");
+public class StringUtils {
 
     public static String capitalizeString(String string) {
         StringBuilder sb = new StringBuilder(string.replace("_", " ").toLowerCase());
@@ -21,7 +17,7 @@ public class RandomUtils {
         return sb.toString();
     }
 
-    public static String prettierEffectType(PotionType type) {
+    public static String prettierEffectName(PotionType type) {
         try {
             switch (String.valueOf(type)){
                 case "AWKWARD":
@@ -111,20 +107,6 @@ public class RandomUtils {
         }
     }
 
-    //Yoinked from InteractiveChatDiscordSRVAddon
-    public static Color getPotionBaseColor(PotionType type) {
-        PotionEffectType effect = type.getEffectType();
-        if (effect == null) {
-            if (type.equals(PotionType.UNCRAFTABLE)) {
-                return UNCRAFTABLE_COLOR;
-            } else {
-                return WATER_COLOR;
-            }
-        } else {
-            return new Color(effect.getColor().asRGB());
-        }
-    }
-
     public static String colorToHex(PotionMeta meta, PotionType potionType) {
         int rgb;
         String buf;
@@ -133,17 +115,59 @@ public class RandomUtils {
             if (meta.hasColor()) {
                 rgb = meta.getColor().asRGB();
             } else {
-                rgb = RandomUtils.getPotionBaseColor(potionType).getRGB();
+                rgb = PotionUtils.getPotionBaseColor(potionType).getRGB();
             }
             buf = Integer.toHexString(rgb);
             hex = buf.substring(buf.length()-6);
         } catch (Exception e) {
-            buf = String.valueOf(WATER_COLOR);
+            buf = String.valueOf(PotionUtils.WATER_COLOR);
             hex = buf.substring(buf.length()-6);
             e.printStackTrace();
         }
         return hex;
     }
+    public static String itemName(ItemStack itemStack) {
+        String item = StringUtils.capitalizeString(itemStack.getType().toString());
+        if (PotionUtils.isPotion(itemStack)) {
+            if (itemStack.getType() == Material.TIPPED_ARROW) {
+                PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
+                PotionType potionType = meta.getBasePotionData().getType();
+                if (potionType.getEffectType() != null) {
+                    item = "Arrow of " + StringUtils.capitalizeString(StringUtils.prettierEffectName(potionType));
+                } else {
+                    if (potionType.equals(PotionType.UNCRAFTABLE)) {
+                        item = "Tipped Arrow";
+                    } else {
+                        item = "Uncraftable Tipped Arrow";
+                    }
+                }
+            } else {
+                PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
+                PotionType potionType = meta.getBasePotionData().getType();
+                if (potionType.getEffectType() != null)
+                    item = StringUtils.capitalizeString(itemStack.getType().toString()) + " of " + StringUtils.capitalizeString(StringUtils.prettierEffectName(potionType));
+                else {
+                    item = StringUtils.prettierEffectName(potionType) + " " + StringUtils.capitalizeString(itemStack.getType().toString());
+                }
+            }
+        }
+        return item;
+    }
 
-
+    public static String getLink (ItemStack itemStack) {
+        if (PotionUtils.isPotion(itemStack)) {
+            PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
+            PotionType potionType = meta.getBasePotionData().getType();
+            if (itemStack.getType().equals(Material.TIPPED_ARROW)) {
+                return "https://res.cloudinary.com/pryormc/image/upload/l_tipped_arrow_head,e_tint:100:" +
+                        StringUtils.colorToHex(meta, potionType) + "/h_250/tipped_arrow_base.png";
+            }
+            else {
+                return "https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + StringUtils.colorToHex(meta, potionType) + "/h_250/" + itemStack.getType() + ".png";
+            }
+        }
+        if (itemStack.getAmount() >= 2) {
+            return "https://ik.imagekit.io/pryormc/tr:otf-font.ttf,ot-" + itemStack.getAmount() + "ots-90,otc-FFFFFF,oy-250,ox-250/" + itemStack.getType().toString().toLowerCase() + ".png?tr=w-128,h-128";
+        } else return "https://ik.imagekit.io/pryormc/tr:otf-font.ttf,ot- ,ots-90,otc-FFFFFF,oy-250,ox-250/" + itemStack.getType().toString().toLowerCase() + ".png?tr=w-128,h-128";
+    }
 }
