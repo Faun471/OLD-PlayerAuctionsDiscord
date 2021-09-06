@@ -4,7 +4,6 @@ import com.olziedev.playerauctions.api.events.PlayerAuctionSellEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import me.faun.playerauctiondiscord.utils.RandomUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
