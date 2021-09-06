@@ -167,7 +167,7 @@ public class StringUtils {
             }
         }
         if (itemStack.getAmount() >= 2) {
-            return "https://ik.imagekit.io/pryormc/tr:otf-font.ttf,ot-" + itemStack.getAmount() + "ots-90,otc-FFFFFF,oy-250,ox-250/" + itemStack.getType().toString().toLowerCase() + ".png?tr=w-128,h-128";
+            return "https://ik.imagekit.io/pryormc/tr:otf-font.ttf,ot-" + itemStack.getAmount() + ",ots-90,otc-FFFFFF,oy-250,ox-250/" + itemStack.getType().toString().toLowerCase() + ".png?tr=w-128,h-128";
         } else return "https://ik.imagekit.io/pryormc/tr:otf-font.ttf,ot- ,ots-90,otc-FFFFFF,oy-250,ox-250/" + itemStack.getType().toString().toLowerCase() + ".png?tr=w-128,h-128";
     }
 }
