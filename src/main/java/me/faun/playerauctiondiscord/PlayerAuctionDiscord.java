@@ -1,9 +1,9 @@
 package me.faun.playerauctiondiscord;
 
 
-import me.faun.playerauctiondiscord.listeners.AuctionBuyEvent;
-import me.faun.playerauctiondiscord.listeners.AuctionRemoveEvent;
-import me.faun.playerauctiondiscord.listeners.AuctionSellEvent;
+import me.faun.playerauctiondiscord.listeners.AuctionBuyListener;
+import me.faun.playerauctiondiscord.listeners.AuctionRemoveListener;
+import me.faun.playerauctiondiscord.listeners.AuctionSellListener;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,9 +15,9 @@ public final class PlayerAuctionDiscord extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        Bukkit.getPluginManager().registerEvents(new AuctionSellEvent(), this);
-        Bukkit.getPluginManager().registerEvents(new AuctionBuyEvent(), this);
-        Bukkit.getPluginManager().registerEvents(new AuctionRemoveEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new AuctionSellListener(), this);
+        Bukkit.getPluginManager().registerEvents(new AuctionBuyListener(), this);
+        Bukkit.getPluginManager().registerEvents(new AuctionRemoveListener(), this);
         instance = this;
         saveDefaultConfig();
     }

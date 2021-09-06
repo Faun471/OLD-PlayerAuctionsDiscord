@@ -5,7 +5,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class PotionUtils {
     //Yoinked from InteractiveChatDiscordSRVAddon

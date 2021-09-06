@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import java.awt.Color;
 
 
-public class AuctionRemoveEvent implements Listener {
+public class AuctionRemoveListener implements Listener {
 
     @EventHandler
     public void onRemoveEvent(PlayerAuctionRemoveEvent event){

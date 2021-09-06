@@ -1,5 +1,6 @@
 package me.faun.playerauctiondiscord.utils;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -8,102 +9,43 @@ import org.bukkit.potion.PotionType;
 public class StringUtils {
 
     public static String capitalizeString(String string) {
-        StringBuilder sb = new StringBuilder(string.replace("_", " ").toLowerCase());
-        int i = 0;
-        do {
-            sb.replace(i, i + 1, sb.substring(i, i + 1).toUpperCase());
-            i = sb.indexOf(" ", i) + 1;
-        } while (i > 0 && i < sb.length());
-        return sb.toString();
+        return WordUtils.capitalizeFully(string).replace("_", " ");
     }
 
     public static String prettierEffectName(PotionType type) {
-        try {
-            switch (String.valueOf(type)){
-                case "AWKWARD":
-                    return "Awkward";
-                case "UNCRAFTABLE":
-                    return "Uncraftable";
-                case "THICK":
-                    return "T H I C C";
-                case "MUNDANE":
-                    return "Mundane";
-                case "TURTLE_MASTER":
-                    return "Turtle Master";
-                case "WATER":
-                    return "Water Bottle";
-                default:
-                    return "Unknown";
-            }
-        } catch (Exception e) {
-            switch (type.getEffectType().getName()) {
-                case "ABSORPTION":
-                    return "Absorption";
-                case "BAD_OMEN":
-                    return "Bad Omen";
-                case "BLINDNESS":
-                    return "Blindness";
-                case "CONDUIT_POWER":
-                    return "Conduit Power";
-                case "CONFUSION":
-                    return "Confusion";
+        if (type.getEffectType() != null) {
+            String effectType = type.getEffectType().getName();
+            switch (effectType) {
                 case "DAMAGE_RESISTANCE":
                     return "Resistance";
                 case "DOLPHINS_GRACE":
                     return "Dolphin's Grace";
                 case "FAST_DIGGING":
                     return "Haste";
-                case "FIRE_RESISTANCE":
-                    return "Fire Resistance";
-                case "GLOWING":
-                    return "Glowing";
                 case "HARM":
                     return "Harming";
                 case "HEAL":
                     return "Healing";
-                case "HEALTH_BOOST":
-                    return "Health Boost";
-                case "HERO_OF_THE_VILLAGE":
-                    return "Hero of the Village";
-                case "HUNGER":
-                    return "Hunger";
                 case "INCREASE_DAMAGE":
                     return "Strength";
-                case "INVISIBILITY":
-                    return "Invisibility";
                 case "JUMP":
                     return "Leaping";
-                case "LEVITATION":
-                    return "Levitation";
-                case "LUCK":
-                    return "Luck";
-                case "NIGHT_VISION":
-                    return "Night Vision";
-                case "POISON":
-                    return "Poison";
-                case "REGENERATION":
-                    return "Regeneration";
-                case "SATURATION":
-                    return "Saturation";
                 case "SLOW":
                     return "Slowness";
                 case "SLOW_DIGGING":
                     return "Mining Fatigue";
-                case "SLOW_FALLING":
-                    return "Slow Falling";
                 case "SPEED":
                     return "Swiftness";
                 case "UNLUCK":
                     return "Bad Luck";
-                case "WATER_BREATHING":
-                    return "Water Breathing";
-                case "WEAKNESS":
-                    return "Weakness";
-                case "WITHER":
-                    return "Wither";
                 default:
-                    return "Unknown";
+                    return StringUtils.capitalizeString(effectType);
             }
+        } else {
+            if (type.name().equals("WATER")) {
+                return "Water Bottle";
+            }
+            return StringUtils.capitalizeString(type.name());
         }
     }
 
@@ -167,7 +109,9 @@ public class StringUtils {
             }
         }
         if (itemStack.getAmount() >= 2) {
-            return "https://ik.imagekit.io/pryormc/tr:otf-font.ttf,ot-" + itemStack.getAmount() + ",ots-90,otc-FFFFFF,oy-250,ox-250/" + itemStack.getType().toString().toLowerCase() + ".png?tr=w-128,h-128";
-        } else return "https://ik.imagekit.io/pryormc/tr:otf-font.ttf,ot- ,ots-90,otc-FFFFFF,oy-250,ox-250/" + itemStack.getType().toString().toLowerCase() + ".png?tr=w-128,h-128";
+            return "https://ik.imagekit.io/pryormc/tr:w-64,h-auto,otf-font.ttf,ot-" + itemStack.getAmount() + ",otc-FFFFFF,ofo-bottom_right/" + itemStack.getType().toString().toLowerCase() + ".png";
+        } else {
+            return "https://ik.imagekit.io/pryormc/tr:w-64,h-auto,otf-font.ttf,ot- ,otc-FFFFFF,ofo-bottom_right/" + itemStack.getType().toString().toLowerCase() + ".png";
+        }
     }
 }

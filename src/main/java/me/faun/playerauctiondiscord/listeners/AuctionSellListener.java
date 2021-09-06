@@ -1,35 +1,32 @@
 package me.faun.playerauctiondiscord.listeners;
 
-import com.olziedev.playerauctions.api.events.PlayerAuctionBuyEvent;
+import com.olziedev.playerauctions.api.events.PlayerAuctionSellEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import me.faun.playerauctiondiscord.PlayerAuctionDiscord;
 import me.faun.playerauctiondiscord.utils.StringUtils;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 import java.awt.Color;
 
-public class AuctionBuyEvent implements Listener {
+public class AuctionSellListener implements Listener {
 
     @EventHandler
-    public void onBuyEvent(PlayerAuctionBuyEvent event){
+    public void onSellEvent(PlayerAuctionSellEvent event){
         EmbedBuilder eb = new EmbedBuilder();
         ItemStack itemStack = event.getPlayerAuction().getItem();
         String item = StringUtils.itemName(itemStack);
 
         eb.setThumbnail(StringUtils.getLink(itemStack));
-        eb.setAuthor(event.getBuyer().getName()+ " bought " + item + " for $" + event.getPlayerAuction().getPrice(), null,
-                "https://crafatar.com/avatars/"+ event.getBuyer().getUniqueId());
-        eb.setColor(new Color(0x48f542));
+        eb.setAuthor(event.getSeller().getName()+ " is selling " + item + " for $" + event.getPlayerAuction().getPrice(), null,
+                "https://crafatar.com/avatars/"+ event.getSeller().getUniqueId());
+        eb.setColor(new Color(0x4287f5));
         eb.setTitle("Auction Information:",null);
-        eb.addField("Seller", event.getPlayerAuction().getAuctionPlayer().getName(), true);
-        eb.addField("Buyer", event.getBuyer().getName(), true);
-        eb.addBlankField(true);
+        eb.addField("Seller", event.getSeller().getName(), false);
         eb.addField("Item", item, true);
-        eb.addField("Amount", String.valueOf(event.getPlayerAuction().getItem().getAmount()), true);
+        eb.addField("Amount", String.valueOf(itemStack.getAmount()), true);
         eb.addBlankField(true);
         eb.addField("Price", String.valueOf(event.getPlayerAuction().getPrice()), false);
         eb.setFooter("Auction ID: " + event.getPlayerAuction().getID());
