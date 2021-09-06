@@ -4,6 +4,7 @@ import com.olziedev.playerauctions.api.events.PlayerAuctionSellEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.util.DiscordUtil;
 import me.faun.playerauctiondiscord.utils.RandomUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,22 +28,24 @@ public class AuctionSellEvent implements Listener {
                 PotionMeta meta = (PotionMeta) item.getItemMeta();
                 PotionType potionType = meta.getBasePotionData().getType();
                 eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_tipped_arrow_head,e_tint:100:"+ RandomUtils.colorToHex(meta, potionType) + "/h_250/tipped_arrow_base.png");
-                System.out.println("https://res.cloudinary.com/pryormc/image/upload/l_tipped_arrow_head,e_tint:100:"+ RandomUtils.colorToHex(meta, potionType) +"/h_250/tipped_arrow_base.png");
+                eb.setAuthor(event.getSeller().getName()+ " is selling Arrow of " + RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType)) + " for $" + event.getPlayerAuction().getPrice(), null,
+                        "https://crafatar.com/avatars/"+ event.getSeller().getUniqueId());
             }
             else {
                 PotionMeta meta = (PotionMeta) item.getItemMeta();
                 PotionType potionType = meta.getBasePotionData().getType();
                 eb.setThumbnail("https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + RandomUtils.colorToHex(meta, potionType) + "/h_250/" + item.getType() + ".png");
-                System.out.println("https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + RandomUtils.colorToHex(meta, potionType) + "/h_250/" + item.getType() + ".png");
+                eb.setAuthor(event.getSeller().getName()+ " is selling " + RandomUtils.capitalizeString(item.getType().toString()) + " of " + RandomUtils.capitalizeString(RandomUtils.prettierEffectType(potionType)) + " for $" + event.getPlayerAuction().getPrice(), null,
+                        "https://crafatar.com/avatars/"+ event.getSeller().getUniqueId());
             }
         }
         else {
             eb.setThumbnail("https://ik.imagekit.io/pryormc/"+ item.getType().toString().toLowerCase() +".png?tr=w-128,h-128");
+            eb.setAuthor(event.getSeller().getName()+ " is selling " + RandomUtils.capitalizeString(item.getType().toString()) + " for $" + event.getPlayerAuction().getPrice(), null,
+                    "https://crafatar.com/avatars/"+ event.getSeller().getUniqueId());
         }
 
         eb.setColor(new Color(0x4287f5)); //blue
-        eb.setAuthor(event.getSeller().getName()+ " is selling " + RandomUtils.capitalizeString(item.getType().toString()) + " for $" + event.getPlayerAuction().getPrice(), null,
-                "https://crafatar.com/avatars/"+ event.getSeller().getUniqueId());
         eb.setTitle("Auction Information:",null);
         eb.addField("Seller", event.getSeller().getName(), false);
         eb.addField("Item", RandomUtils.capitalizeString(item.getType().toString()), true);
