@@ -103,9 +103,9 @@ public class StringUtils {
             //Cloudinary allows me to add tint to images, so they're used to handle potions and arrows
             if (itemStack.getType().equals(Material.TIPPED_ARROW)) {
                 if (itemStack.getAmount() >= 2) {
-                    return "https://res.cloudinary.com/pryormc/image/upload/c_scale,q_100,w_128/c_mfit,e_tint:100: " + StringUtils.colorToHex(meta, potionType) + ",l_tipped_arrow_head,w_128/l_text:font.ttf_40:"+ itemStack.getAmount() +",y_0.3,x_0.25,co_white/v1630686090/tipped_arrow_base.png";
+                    return "https://res.cloudinary.com/pryormc/image/upload/c_scale,q_100,w_128/c_mfit,e_tint:100:" + StringUtils.colorToHex(meta, potionType) + ",l_tipped_arrow_head,w_128/l_text:font.ttf_40:"+ itemStack.getAmount() +",y_0.3,x_0.25,co_white/v1630686090/tipped_arrow_base.png";
                 } else {
-                    return "https://res.cloudinary.com/pryormc/image/upload/c_scale,q_100,w_128/c_mfit,e_tint:100: " + StringUtils.colorToHex(meta, potionType) + ",l_tipped_arrow_head,w_128/l_text:font.ttf_40:%20,y_0.3,x_0.25,co_white/v1630686090/tipped_arrow_base.png";
+                    return "https://res.cloudinary.com/pryormc/image/upload/c_scale,q_100,w_128/c_mfit,e_tint:100:" + StringUtils.colorToHex(meta, potionType) + ",l_tipped_arrow_head,w_128/l_text:font.ttf_40:%20,y_0.3,x_0.25,co_white/v1630686090/tipped_arrow_base.png";
                 }
             }
             else {
