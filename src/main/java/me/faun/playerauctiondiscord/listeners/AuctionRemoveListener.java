@@ -29,7 +29,7 @@ public class AuctionRemoveListener implements Listener {
             eb.addField("Item", item, true);
             eb.addField("Amount", String.valueOf(event.getPlayerAuction().getItem().getAmount()), true);
             eb.addBlankField(true);
-            eb.addField("Price", String.valueOf(event.getPlayerAuction().getPrice()), false);
+            eb.addField("Price $", String.valueOf(event.getPlayerAuction().getPrice()), false);
             eb.setFooter("Auction ID: " + event.getPlayerAuction().getID());
 
             DiscordUtil.getTextChannelById(PlayerAuctionDiscord.getInstance().getConfig().getString("channel")).sendMessage(eb.build()).queue();
