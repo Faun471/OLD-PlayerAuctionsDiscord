@@ -24,9 +24,11 @@ public class EmbedUtils  {
             case BUY:
                 eb.setAuthor(buyer.getName() + " bought " + item + " for $" + auction.getPrice(), null,
                         "https://crafatar.com/avatars/"+ buyer.getUniqueId());
+                eb.setColor(new Color(0x48f542));
                 break;
             case REMOVE:
-                eb.setAuthor(item + " was removed from the Auction!", null, null);
+                eb.setAuthor(item + " was removed from the Auction!", null, "https://crafatar.com/avatars/"+ seller.getUniqueId());
+                eb.setColor(new Color(0xbf2a2a));
                 break;
         }
 

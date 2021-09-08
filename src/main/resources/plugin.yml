@@ -1,5 +1,11 @@
 name: PlayerAuctionDiscord
 version: ${project.version}
-main: me.faun.playerauctiondiscord.PlayerAuctionDiscord
+main: me.faun.playerauctiondiscord.PlayerAuctionsDiscord
 api-version: 1.17
 depend: [ DiscordSRV, PlayerAuctions ]
+commands:
+  PlayerAuctionsDiscord:
+    usage: "Usage /playerauctionsdiscord reload"
+    aliases:
+      - "pad"
+    description: "Main command of PlayerAuctionsDiscord"

@@ -2,7 +2,7 @@ package me.faun.playerauctiondiscord.listeners;
 
 import com.olziedev.playerauctions.api.events.PlayerAuctionSellEvent;
 import github.scarsz.discordsrv.util.DiscordUtil;
-import me.faun.playerauctiondiscord.PlayerAuctionDiscord;
+import me.faun.playerauctiondiscord.PlayerAuctionsDiscord;
 import me.faun.playerauctiondiscord.utils.EmbedType;
 import me.faun.playerauctiondiscord.utils.EmbedUtils;
 import org.bukkit.event.EventHandler;
@@ -13,10 +13,10 @@ public class AuctionSellListener implements Listener {
 
     @EventHandler
     public void onSellEvent(PlayerAuctionSellEvent event){
-        if (PlayerAuctionDiscord.getInstance().getConfig().getBoolean("sell-embed.enabled")){
+        if (PlayerAuctionsDiscord.getInstance().getConfig().getBoolean("sell-embed.enabled")){
             ItemStack itemStack = event.getPlayerAuction().getItem();
 
-            DiscordUtil.getTextChannelById(PlayerAuctionDiscord.getInstance().getConfig().getString("channel")).sendMessage
+            DiscordUtil.getTextChannelById(PlayerAuctionsDiscord.getInstance().getConfig().getString("channel")).sendMessage
                     (EmbedUtils.getEmbedBuilder(
                             EmbedType.SELL,
                             itemStack,

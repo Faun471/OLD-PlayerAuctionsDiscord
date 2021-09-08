@@ -30,14 +30,14 @@ public class StringUtils {
     }
 
     public static String prettierEffectName(PotionType type) {
-        if (type.getEffectType() != null) {
-            String effectType = type.getEffectType().getName();
-            return effectNames.getOrDefault(effectType, StringUtils.capitalizeString(effectType));
-        } else {
+        if (type.getEffectType() == null) {
             if (type.name().equals("WATER")){
                 return "Water Bottle";
             }
             return effectNames.getOrDefault(type.name(), StringUtils.capitalizeString(type.name()));
+        } else {
+            String effectType = type.getEffectType().getName();
+            return effectNames.getOrDefault(effectType, StringUtils.capitalizeString(effectType));
         }
     }
 
@@ -71,9 +71,9 @@ public class StringUtils {
                     item = "Arrow of " + StringUtils.capitalizeString(StringUtils.prettierEffectName(potionType));
                 } else {
                     if (potionType.equals(PotionType.UNCRAFTABLE)) {
-                        item = "Tipped Arrow";
-                    } else {
                         item = "Uncraftable Tipped Arrow";
+                    } else {
+                        item = "Tipped Arrow";
                     }
                 }
             } else {

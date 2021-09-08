@@ -1,6 +1,7 @@
 package me.faun.playerauctiondiscord;
 
 
+import me.faun.playerauctiondiscord.commands.ReloadCommand;
 import me.faun.playerauctiondiscord.listeners.AuctionBuyListener;
 import me.faun.playerauctiondiscord.listeners.AuctionRemoveListener;
 import me.faun.playerauctiondiscord.listeners.AuctionSellListener;
@@ -8,16 +9,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class PlayerAuctionDiscord extends JavaPlugin implements Listener {
+public final class PlayerAuctionsDiscord extends JavaPlugin implements Listener {
 
-
-    static PlayerAuctionDiscord instance;
+    static PlayerAuctionsDiscord instance;
 
     @Override
     public void onEnable() {
         Bukkit.getPluginManager().registerEvents(new AuctionSellListener(), this);
         Bukkit.getPluginManager().registerEvents(new AuctionBuyListener(), this);
         Bukkit.getPluginManager().registerEvents(new AuctionRemoveListener(), this);
+        this.getCommand("PlayerAuctionsDiscord").setExecutor(new ReloadCommand());
         instance = this;
         saveDefaultConfig();
     }
@@ -27,7 +28,7 @@ public final class PlayerAuctionDiscord extends JavaPlugin implements Listener {
         // Plugin shutdown logic
     }
 
-    public static PlayerAuctionDiscord getInstance() {
+    public static PlayerAuctionsDiscord getInstance() {
         return instance;
     }
 }
