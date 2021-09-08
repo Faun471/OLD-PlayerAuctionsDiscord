@@ -1,12 +1,29 @@
 package me.faun.playerauctiondiscord.utils;
 
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
 
+import java.util.Map;
+
 public class StringUtils {
+
+    public static final Map<String, String> effectNames = ImmutableMap.<String, String>builder()
+            .put("DAMAGE_RESISTANCE", "Resistance")
+            .put("DOLPHINS_GRACE", "Dolphin's Grace")
+            .put("FAST_DIGGING", "Haste")
+            .put("HARM", "Harming")
+            .put("HEAL", "Healing")
+            .put("INCREASE_DAMAGE", "Strength")
+            .put("JUMP", "Leaping")
+            .put("SLOW", "Slowness")
+            .put("SLOW_DIGGING", "Mining Fatigue")
+            .put("SPEED", "Swiftness")
+            .put("UNLUCK", "Bad Luck")
+            .build();
 
     public static String capitalizeString(String string) {
         return WordUtils.capitalizeFully(string).replace("_", " ");
@@ -15,37 +32,12 @@ public class StringUtils {
     public static String prettierEffectName(PotionType type) {
         if (type.getEffectType() != null) {
             String effectType = type.getEffectType().getName();
-            switch (effectType) {
-                case "DAMAGE_RESISTANCE":
-                    return "Resistance";
-                case "DOLPHINS_GRACE":
-                    return "Dolphin's Grace";
-                case "FAST_DIGGING":
-                    return "Haste";
-                case "HARM":
-                    return "Harming";
-                case "HEAL":
-                    return "Healing";
-                case "INCREASE_DAMAGE":
-                    return "Strength";
-                case "JUMP":
-                    return "Leaping";
-                case "SLOW":
-                    return "Slowness";
-                case "SLOW_DIGGING":
-                    return "Mining Fatigue";
-                case "SPEED":
-                    return "Swiftness";
-                case "UNLUCK":
-                    return "Bad Luck";
-                default:
-                    return StringUtils.capitalizeString(effectType);
-            }
+            return effectNames.getOrDefault(effectType, StringUtils.capitalizeString(effectType));
         } else {
-            if (type.name().equals("WATER")) {
+            if (type.name().equals("WATER")){
                 return "Water Bottle";
             }
-            return StringUtils.capitalizeString(type.name());
+            return effectNames.getOrDefault(type.name(), StringUtils.capitalizeString(type.name()));
         }
     }
 
@@ -68,6 +60,7 @@ public class StringUtils {
         }
         return hex;
     }
+
     public static String itemName(ItemStack itemStack) {
         String item = StringUtils.capitalizeString(itemStack.getType().toString());
         if (PotionUtils.isPotion(itemStack)) {
@@ -109,14 +102,14 @@ public class StringUtils {
                 }
             }
             else {
-                return "https://res.cloudinary.com/pryormc/image/upload/l_potion_overlay,e_tint:100:" + StringUtils.colorToHex(meta, potionType) + "/h_250/" + itemStack.getType() + ".png";
+                return "https://res.cloudinary.com/pryormc/image/upload/c_scale,q_100,w_64/c_mfit,e_tint:100:" + StringUtils.colorToHex(meta, potionType) + ",l_potion_overlay,w_64/l_text:font.ttf_15:%20,y_0.3,x_0.25,co_white/v1630686090/"+ itemStack.getType() + ".png";
             }
         }
         //Unlike cloudinary, imagekit doesn't add random characters at the end of each uploaded image, which made it possible for me to mass upload images
         if (itemStack.getAmount() >= 2) {
             return "https://ik.imagekit.io/pryormc/tr:w-64,h-auto,otf-font.ttf,ot-" + itemStack.getAmount() + ",otc-FFFFFF,ofo-bottom_right/" + itemStack.getType().toString().toLowerCase() + ".png";
         } else {
-            return "https://ik.imagekit.io/pryormc/tr:w-64,h-auto,otf-font.ttf,ot- ,otc-FFFFFF,ofo-bottom_right/" + itemStack.getType().toString().toLowerCase() + ".png";
+            return "https://ik.imagekit.io/pryormc/tr:w-64,h-auto,otf-font.ttf,ot-%20,otc-FFFFFF,ofo-bottom_right/" + itemStack.getType().toString().toLowerCase() + ".png";
         }
     }
 }

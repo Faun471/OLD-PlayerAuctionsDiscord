@@ -1,1 +1,9 @@
 channel: "883610558329421854"
+
+sell-embed:
+  enabled: true
+buy-embed:
+  enabled: true
+remove-embed:
+  enabled: true
+
