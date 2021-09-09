@@ -1,7 +1,20 @@
-channel: "883610558329421854"
+channel: "723824870001213451"
 
 sell-embed:
   enabled: true
+  author: "%seller% is selling %item% for $%price%"
+  color: "#4287f5"
+  title: "Auction Information"
+  footer: "Auction ID: %Auction ID%"
+  fields:
+    field1:
+      name: "name"
+      value: "value"
+      inline: true
+    field2:
+      name: "field2"
+      value: "value2"
+      inline: true
 buy-embed:
   enabled: true
 remove-embed:

@@ -30,7 +30,7 @@ public class StringUtils {
     }
 
     public static String prettierEffectName(PotionType type) {
-        if (type.getEffectType() != null && !type.name().equals("TURTLE_MASTER")) {
+        if (type.getEffectType() != null && type != PotionType.TURTLE_MASTER) {
             String effectType = type.getEffectType().getName();
             return effectNames.getOrDefault(effectType, StringUtils.capitalizeString(effectType));
         } else {
