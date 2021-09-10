@@ -67,13 +67,14 @@ public class EmbedUtils  {
             Bukkit.getPluginManager().disablePlugin(PlayerAuctionsDiscord.getInstance());
         }
         return eb.build();
-
     }
+
     public static String processString(String string, Auction auction, @Nullable Player buyer) {
         String buyerName = buyer != null ? buyer.getName() : "N/A";
         return string
                 .replace("%seller%", auction.getAuctionPlayer().getName())
-                .replace("%item%", StringUtils.capitalizeString(auction.getItem().getType().toString()))
+                .replace("%item%", StringUtils.itemName(auction.getItem()))
+                .replace("%amount%", String.valueOf(auction.getItem().getAmount()))
                 .replace("%price%", String.valueOf(auction.getPrice())
                 .replace("%auction_id%", String.valueOf(auction.getID()))
                 .replace("%buyer%", buyerName));

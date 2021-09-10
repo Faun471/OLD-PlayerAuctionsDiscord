@@ -1,4 +1,4 @@
-channel: "723824870001213451"
+channel: ""
 
 sell-embed:
   enabled: true
@@ -7,16 +7,86 @@ sell-embed:
   title: "Auction Information"
   footer: "Auction ID: %Auction ID%"
   fields:
-    field1:
-      name: "name"
-      value: "value"
+    Seller:
+      name: "Seller"
+      value: "%seller%"
       inline: true
-    field2:
-      name: "field2"
-      value: "value2"
+    blank:
+      name: ""
+      value: ""
+      inline: true
+    Item:
+      name: "Item"
+      value: "%item%"
+      inline: true
+    Amount:
+      name: "Amount"
+      value: "%amount%"
+      inline: true
+    blank1:
+      name: ""
+      value: ""
+      inline: true
+    Price:
+      name: "Price"
       inline: true
 buy-embed:
   enabled: true
+  author: "%buyer% bought %item% for $%price%"
+  color: "#48f542"
+  title: "Auction Information"
+  footer: "Auction ID: %Auction ID%"
+  fields:
+    Seller:
+      name: "Seller"
+      value: "%seller%"
+      inline: true
+    Buyer:
+      name: "Buyer"
+      value: "%buyer%"
+      inline: true
+    Item:
+      name: "Item"
+      value: "%item%"
+      inline: true
+    Amount:
+      name: "Amount"
+      value: "%amount%"
+      inline: true
+    blank1:
+      name: ""
+      value: ""
+      inline: true
+    Price:
+      name: "Price"
+      inline: true
 remove-embed:
   enabled: true
-
+  author: "%item% was removed from the Auction!"
+  color: "#bf2a2a"
+  title: "Auction Information"
+  footer: "Auction ID: %Auction ID%"
+  fields:
+    Seller:
+      name: "Seller"
+      value: "%seller%"
+      inline: true
+    blank:
+      name: ""
+      value: ""
+      inline: true
+    Item:
+      name: "Item"
+      value: "%item%"
+      inline: true
+    Amount:
+      name: "Amount"
+      value: "%amount%"
+      inline: true
+    blank1:
+      name: ""
+      value: ""
+      inline: true
+    Price:
+      name: "Price"
+      inline: true
