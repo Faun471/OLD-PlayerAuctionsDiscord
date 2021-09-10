@@ -1,12 +1,15 @@
 package me.faun.playerauctiondiscord.utils;
 
 import com.google.common.collect.ImmutableMap;
+import com.olziedev.playerauctions.api.auction.Auction;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionType;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 
 public class StringUtils {

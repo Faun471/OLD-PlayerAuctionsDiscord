@@ -19,9 +19,6 @@ public class EmbedUtils  {
     public static MessageEmbed getEmbedBuilder(EmbedType type, ItemStack itemStack, Player seller, @Nullable Player buyer, Auction auction) {
         EmbedBuilder eb = new EmbedBuilder();
 
-        String item = StringUtils.itemName(itemStack);
-        String price = String.valueOf(auction.getPrice());
-        String buyerName = buyer != null ? buyer.getName() : "N/A";
         String configType = type.toString().toLowerCase();
 
         Configuration config = PlayerAuctionsDiscord.getInstance().getConfig();
@@ -31,7 +28,6 @@ public class EmbedUtils  {
 
         eb.setThumbnail(StringUtils.getLink(itemStack));
 
-        //Todo having a bunch of .replace looks stupid, do something about it lmfao
         try {
             if (mainConfig != null) {
                 Set<String> mainConfigKeys = mainConfig.getKeys(false);
@@ -43,25 +39,10 @@ public class EmbedUtils  {
                         Color color = Color.decode((String) values.get("color"));
                         String title = (String) values.get("title");
                         String footer = (String) values.get("footer");
-                        eb.setAuthor(author
-                                .replace("%seller%", seller.getName())
-                                .replace("%item%", item)
-                                .replace("%price%", price)
-                                .replace("%buyer%", buyerName)
-                                .replace("%auction_id%", String.valueOf(auction.getID())), null, "https://crafatar.com/avatars/" + seller.getUniqueId());
+                        eb.setAuthor(processString(author, auction, buyer), null, "https://crafatar.com/avatars/" + seller.getUniqueId());
                         eb.setColor(color);
-                        eb.setTitle(title
-                                .replace("%seller%", seller.getName())
-                                .replace("%item%", item)
-                                .replace("%price%", price)
-                                .replace("%buyer%", buyerName)
-                                .replace("%auction_id%", String.valueOf(auction.getID())), null);
-                        eb.setFooter(footer
-                                .replace("%seller%", seller.getName())
-                                .replace("%item%", item)
-                                .replace("%price%", price)
-                                .replace("%buyer%", buyerName)
-                                .replace("%auction_id%", String.valueOf(auction.getID())), null);
+                        eb.setTitle(processString(title, auction, buyer), null);
+                        eb.setFooter(processString(footer, auction, buyer), null);
                     }
                 }
             }
@@ -74,15 +55,7 @@ public class EmbedUtils  {
                         String name = (String) values.get("name");
                         String value = (String) values.get("value");
                         Boolean inline = (Boolean) values.get("inline");
-                        eb.addField(name.replace("%seller%", seller.getName())
-                                .replace("%item%", item)
-                                .replace("%price%", price)
-                                .replace("%buyer%", buyerName)
-                                .replace("%auction_id%", String.valueOf(auction.getID())), value.replace("%seller%", seller.getName())
-                                .replace("%item%", item)
-                                .replace("%price%", price)
-                                .replace("%buyer%", buyerName)
-                                .replace("%auction_id%", String.valueOf(auction.getID())), inline);
+                        eb.addField(processString(name, auction, buyer), processString(value, auction, buyer), inline);
                     }
                 }
             }
@@ -94,5 +67,15 @@ public class EmbedUtils  {
             Bukkit.getPluginManager().disablePlugin(PlayerAuctionsDiscord.getInstance());
         }
         return eb.build();
+
+    }
+    public static String processString(String string, Auction auction, @Nullable Player buyer) {
+        String buyerName = buyer != null ? buyer.getName() : "N/A";
+        return string
+                .replace("%seller%", auction.getAuctionPlayer().getName())
+                .replace("%item%", StringUtils.capitalizeString(auction.getItem().getType().toString()))
+                .replace("%price%", String.valueOf(auction.getPrice())
+                .replace("%auction_id%", String.valueOf(auction.getID()))
+                .replace("%buyer%", buyerName));
     }
 }
