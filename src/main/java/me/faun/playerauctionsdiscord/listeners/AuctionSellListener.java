@@ -20,7 +20,7 @@ public class AuctionSellListener implements Listener {
                     (EmbedUtils.getEmbedBuilder(
                             EmbedType.SELL,
                             itemStack,
-                            event.getSeller(),
+                            event.getPlayerAuction().getAuctionPlayer().getOfflinePlayer(),
                             null,
                             event.getPlayerAuction()
                     )).queue();

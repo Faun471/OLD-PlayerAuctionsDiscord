@@ -20,7 +20,7 @@ public class AuctionRemoveListener implements Listener {
                     (EmbedUtils.getEmbedBuilder(
                             EmbedType.REMOVE,
                             itemStack,
-                            event.getPlayerAuction().getAuctionPlayer().getPlayer(),
+                            event.getPlayerAuction().getAuctionPlayer().getOfflinePlayer(),
                             null,
                             event.getPlayerAuction()
                     )).queue();
