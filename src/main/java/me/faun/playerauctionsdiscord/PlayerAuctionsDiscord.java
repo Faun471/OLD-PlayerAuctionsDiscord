@@ -19,15 +19,10 @@ public final class PlayerAuctionsDiscord extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new AuctionBuyListener(), this);
         Bukkit.getPluginManager().registerEvents(new AuctionRemoveListener(), this);
         JeffLib.init(this);
-        this.getCommand("PlayerAuctionsDiscord").setExecutor(new ReloadCommand());
+        getCommand("PlayerAuctionsDiscord").setExecutor(new ReloadCommand());
         initConfig();
         instance = this;
 
-    }
-
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
     }
 
     public static PlayerAuctionsDiscord getInstance() {
