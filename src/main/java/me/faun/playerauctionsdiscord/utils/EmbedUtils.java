@@ -38,7 +38,7 @@ public class EmbedUtils  {
                     Color color = Color.decode((String) values.get("color"));
                     String title = (String) values.get("title");
                     String footer = (String) values.get("footer");
-                    eb.setAuthor(processString(author, auction, buyer), null, "https://crafatar.com/avatars/" + seller.getUniqueId());
+                    eb.setAuthor(processString(author, auction, buyer), null, "https://www.mc-heads.net/head/" + seller.getUniqueId() + "/100/.png");
                     eb.setColor(color);
                     eb.setTitle(processString(title, auction, buyer), null);
                     eb.setFooter(processString(footer, auction, buyer), null);
