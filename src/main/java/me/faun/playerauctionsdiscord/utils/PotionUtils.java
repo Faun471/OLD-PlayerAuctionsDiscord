@@ -1,4 +1,4 @@
-package me.faun.playerauctiondiscord.utils;
+package me.faun.playerauctionsdiscord.utils;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;

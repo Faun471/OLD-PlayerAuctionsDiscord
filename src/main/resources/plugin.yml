@@ -1,6 +1,6 @@
 name: PlayerAuctionDiscord
 version: ${project.version}
-main: me.faun.playerauctiondiscord.PlayerAuctionsDiscord
+main: me.faun.playerauctionsdiscord.PlayerAuctionsDiscord
 api-version: 1.17
 depend: [ DiscordSRV, PlayerAuctions ]
 commands:

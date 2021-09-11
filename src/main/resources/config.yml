@@ -5,7 +5,7 @@ sell-embed:
   author: "%seller% is selling %item% for $%price%"
   color: "#4287f5"
   title: "Auction Information"
-  footer: "Auction ID: %Auction ID%"
+  footer: "Auction ID: %auction_id%"
   fields:
     Seller:
       name: "Seller"
@@ -29,13 +29,14 @@ sell-embed:
       inline: true
     Price:
       name: "Price"
+      value: "%price%"
       inline: true
 buy-embed:
   enabled: true
   author: "%buyer% bought %item% for $%price%"
   color: "#48f542"
   title: "Auction Information"
-  footer: "Auction ID: %Auction ID%"
+  footer: "Auction ID: %auction_id%"
   fields:
     Seller:
       name: "Seller"
@@ -59,13 +60,14 @@ buy-embed:
       inline: true
     Price:
       name: "Price"
+      value: "%price%"
       inline: true
 remove-embed:
   enabled: true
   author: "%item% was removed from the Auction!"
   color: "#bf2a2a"
   title: "Auction Information"
-  footer: "Auction ID: %Auction ID%"
+  footer: "Auction ID: %auction_id%"
   fields:
     Seller:
       name: "Seller"
@@ -89,4 +91,5 @@ remove-embed:
       inline: true
     Price:
       name: "Price"
+      value: "%price%"
       inline: true

@@ -1,10 +1,10 @@
-package me.faun.playerauctiondiscord.listeners;
+package me.faun.playerauctionsdiscord.listeners;
 
 import com.olziedev.playerauctions.api.events.PlayerAuctionSellEvent;
 import github.scarsz.discordsrv.util.DiscordUtil;
-import me.faun.playerauctiondiscord.PlayerAuctionsDiscord;
-import me.faun.playerauctiondiscord.utils.EmbedType;
-import me.faun.playerauctiondiscord.utils.EmbedUtils;
+import me.faun.playerauctionsdiscord.PlayerAuctionsDiscord;
+import me.faun.playerauctionsdiscord.utils.EmbedType;
+import me.faun.playerauctionsdiscord.utils.EmbedUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;

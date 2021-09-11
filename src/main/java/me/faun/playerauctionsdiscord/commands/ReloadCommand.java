@@ -1,6 +1,6 @@
-package me.faun.playerauctiondiscord.commands;
+package me.faun.playerauctionsdiscord.commands;
 
-import me.faun.playerauctiondiscord.PlayerAuctionsDiscord;
+import me.faun.playerauctionsdiscord.PlayerAuctionsDiscord;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,7 +14,7 @@ public class ReloadCommand implements CommandExecutor {
         if (label.equalsIgnoreCase("playerauctionsdiscord") || label.equalsIgnoreCase("pad")){
             if (args[0].equalsIgnoreCase("reload")){
                 PlayerAuctionsDiscord.getInstance().reloadConfig();
-                sender.sendMessage(ChatColor.GREEN + PlayerAuctionsDiscord.getInstance().getDescription().getName() + "reloaded");
+                sender.sendMessage(ChatColor.GREEN + PlayerAuctionsDiscord.getInstance().getDescription().getName() + " reloaded");
             }
             else sender.sendMessage(ChatColor.translateAlternateColorCodes('&',"&cUsage /playerauctionsdiscord reload"));
             return true;

@@ -1,15 +1,15 @@
-package me.faun.playerauctiondiscord;
+package me.faun.playerauctionsdiscord;
 
-import me.faun.playerauctiondiscord.commands.ReloadCommand;
-import me.faun.playerauctiondiscord.listeners.AuctionBuyListener;
-import me.faun.playerauctiondiscord.listeners.AuctionRemoveListener;
-import me.faun.playerauctiondiscord.listeners.AuctionSellListener;
-import me.faun.playerauctiondiscord.utils.EmbedType;
+import de.jeff_media.jefflib.JeffLib;
+import me.faun.playerauctionsdiscord.commands.ReloadCommand;
+import me.faun.playerauctionsdiscord.listeners.AuctionBuyListener;
+import me.faun.playerauctionsdiscord.listeners.AuctionRemoveListener;
+import me.faun.playerauctionsdiscord.listeners.AuctionSellListener;
+import me.faun.playerauctionsdiscord.utils.EmbedType;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class PlayerAuctionsDiscord extends JavaPlugin implements Listener {
+public final class PlayerAuctionsDiscord extends JavaPlugin {
 
     static PlayerAuctionsDiscord instance;
 
@@ -18,6 +18,7 @@ public final class PlayerAuctionsDiscord extends JavaPlugin implements Listener 
         Bukkit.getPluginManager().registerEvents(new AuctionSellListener(), this);
         Bukkit.getPluginManager().registerEvents(new AuctionBuyListener(), this);
         Bukkit.getPluginManager().registerEvents(new AuctionRemoveListener(), this);
+        JeffLib.init(this);
         this.getCommand("PlayerAuctionsDiscord").setExecutor(new ReloadCommand());
         initConfig();
         instance = this;
