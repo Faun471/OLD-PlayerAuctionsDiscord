@@ -118,7 +118,6 @@ public class StringUtils {
             JSONObject textures = json.getJSONObject("textures");
             JSONObject skin = textures.getJSONObject("SKIN");
             String url = skin.getString("url");
-            System.out.println("https://www.mc-heads.net/head" + url.replace("http://textures.minecraft.net/texture/", "/") + "/100/.png");
             return "https://www.mc-heads.net/head" + url.replace("http://textures.minecraft.net/texture/", "/") + "/100/.png";
 
         }
