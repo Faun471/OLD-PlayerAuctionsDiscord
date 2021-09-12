@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionType;
+import org.json.JSONObject;
 
 import java.util.Base64;
 import java.util.Map;
@@ -110,15 +111,16 @@ public class StringUtils {
         }
         if (itemStack.getItemMeta() instanceof SkullMeta) {
             SkullMeta head = (SkullMeta) itemStack.getItemMeta();
-            if (head.hasOwner()) {
-                return "https://www.mc-heads.net/head/" + head.getOwningPlayer().getUniqueId() + "/100/.png";
-            } else {
-                String base64Texture = SkullUtils.getBase64Texture(head);
-                String trimmed = base64Texture != null ? base64Texture.replace("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUv", "").replace("J9fX0=", "") : null;
-                byte[] bytes = Base64.getDecoder().decode(trimmed);
-                String url = new String(bytes);
-                return "https://www.mc-heads.net/head/" + url + "/100/.png";
-            }
+            String base64Texture = SkullUtils.getBase64Texture(head);
+            byte[] bytes = Base64.getDecoder().decode(base64Texture);
+            String decoded = new String(bytes);
+            JSONObject json = new JSONObject(decoded);
+            JSONObject textures = json.getJSONObject("textures");
+            JSONObject skin = textures.getJSONObject("SKIN");
+            String url = skin.getString("url");
+            System.out.println("https://www.mc-heads.net/head" + url.replace("http://textures.minecraft.net/texture/", "/") + "/100/.png");
+            return "https://www.mc-heads.net/head" + url.replace("http://textures.minecraft.net/texture/", "/") + "/100/.png";
+
         }
         //Unlike cloudinary, imagekit doesn't add random characters at the end of each uploaded image, which made it possible for me to mass upload images
         if (itemStack.getAmount() >= 2) {
