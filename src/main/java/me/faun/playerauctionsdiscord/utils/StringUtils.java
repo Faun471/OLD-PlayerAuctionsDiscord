@@ -1,16 +1,11 @@
 package me.faun.playerauctionsdiscord.utils;
 
 import com.google.common.collect.ImmutableMap;
-import de.jeff_media.jefflib.SkullUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionType;
-import org.json.JSONObject;
-
-import java.util.Base64;
 import java.util.Map;
 
 public class StringUtils {
@@ -30,7 +25,8 @@ public class StringUtils {
             .build();
 
     public static String capitalizeString(String string) {
-        return WordUtils.capitalizeFully(string).replace("_", " ");
+        string = string.trim().replace("_", " ");
+        return WordUtils.capitalizeFully(string);
     }
 
     public static String prettierEffectName(PotionType type) {
@@ -90,42 +86,5 @@ public class StringUtils {
             }
         }
         return item;
-    }
-
-    public static String getLink (ItemStack itemStack) {
-        if (PotionUtils.isPotion(itemStack)) {
-            PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
-            assert meta != null;
-            PotionType potionType = meta.getBasePotionData().getType();
-            //Cloudinary allows me to add tint to images, so they're used to handle potions and arrows
-            if (itemStack.getType().equals(Material.TIPPED_ARROW)) {
-                if (itemStack.getAmount() >= 2) {
-                    return "https://res.cloudinary.com/pryormc/image/upload/c_scale,q_100,w_64/c_mfit,e_tint:100:" + StringUtils.colorToHex(meta, potionType) + ",l_tipped_arrow_head,w_64/l_text:font.ttf_15:"+ itemStack.getAmount() +",y_0.3,x_0.25,co_white/v1630686090/tipped_arrow_base.png";
-                } else {
-                    return "https://res.cloudinary.com/pryormc/image/upload/c_scale,q_100,w_64/c_mfit,e_tint:100:" + StringUtils.colorToHex(meta, potionType) + ",l_tipped_arrow_head,w_64/l_text:font.ttf_15:%20,y_0.3,x_0.25,co_white/v1630686090/tipped_arrow_base.png";
-                }
-            }
-            else {
-                return "https://res.cloudinary.com/pryormc/image/upload/c_scale,q_100,w_64/c_mfit,e_tint:100:" + StringUtils.colorToHex(meta, potionType) + ",l_potion_overlay,w_64/l_text:font.ttf_15:%20,y_0.3,x_0.25,co_white/v1630686090/"+ itemStack.getType() + ".png";
-            }
-        }
-        if (itemStack.getItemMeta() instanceof SkullMeta) {
-            SkullMeta head = (SkullMeta) itemStack.getItemMeta();
-            String base64Texture = SkullUtils.getBase64Texture(head);
-            byte[] bytes = Base64.getDecoder().decode(base64Texture);
-            String decoded = new String(bytes);
-            JSONObject json = new JSONObject(decoded);
-            JSONObject textures = json.getJSONObject("textures");
-            JSONObject skin = textures.getJSONObject("SKIN");
-            String url = skin.getString("url");
-            return "https://www.mc-heads.net/head" + url.replace("http://textures.minecraft.net/texture/", "/") + "/100/.png";
-
-        }
-        //Unlike cloudinary, imagekit doesn't add random characters at the end of each uploaded image, which made it possible for me to mass upload images
-        if (itemStack.getAmount() >= 2) {
-            return "https://ik.imagekit.io/pryormc/tr:w-64,h-auto,otf-font.ttf,ot-" + itemStack.getAmount() + ",otc-FFFFFF,ofo-bottom_right/" + itemStack.getType().toString().toLowerCase() + ".png";
-        } else {
-            return "https://ik.imagekit.io/pryormc/tr:w-64,h-auto,otf-font.ttf,ot-%20,otc-FFFFFF,ofo-bottom_right/" + itemStack.getType().toString().toLowerCase() + ".png";
-        }
     }
 }
