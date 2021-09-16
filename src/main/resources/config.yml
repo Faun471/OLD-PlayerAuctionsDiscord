@@ -1,3 +1,14 @@
+###########################################################################
+# %seller% - returns the seller's name                                    #
+# %item% - returns the item's name                                        #
+# %displayname% - returns the item's display name                         #
+# %amount% - returns the item's amount                                    #
+# %price% - returns the item's price                                      #
+# %auction_id% - returns the auction's ID                                 #
+# %buyer% - returns the buyer's name (if null, it will return "N/A")      #
+###########################################################################
+
+# This config option needs the channel's ID,
 channel: ""
 
 sell-embed:
