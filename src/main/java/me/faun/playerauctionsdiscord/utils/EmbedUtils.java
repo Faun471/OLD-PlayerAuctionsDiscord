@@ -76,7 +76,7 @@ public class EmbedUtils  {
             return string
                     .replace("%seller%", auction.getAuctionPlayer().getName())
                     .replace("%item%", StringUtils.itemName(auction.getItem()))
-                    .replace("%displayname%", StringUtils.capitalizeString(displayName))
+                    .replace("%displayname%", StringUtils.getNicerString(displayName))
                     .replace("%amount%", String.valueOf(auction.getItem().getAmount()))
                     .replace("%price%", String.valueOf(auction.getPrice()))
                     .replace("%auction_id%", String.valueOf(auction.getID()))

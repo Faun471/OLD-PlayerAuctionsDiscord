@@ -2,6 +2,7 @@ package me.faun.playerauctionsdiscord.utils;
 
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang.WordUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -24,20 +25,20 @@ public class StringUtils {
             .put("UNLUCK", "Bad Luck")
             .build();
 
-    public static String capitalizeString(String string) {
+    public static String getNicerString(String string) {
         string = string.trim().replace("_", " ");
-        return WordUtils.capitalizeFully(string);
+        return ChatColor.stripColor(WordUtils.capitalizeFully(string));
     }
 
     public static String prettierEffectName(PotionType type) {
         if (type.getEffectType() != null && type != PotionType.TURTLE_MASTER) {
             String effectType = type.getEffectType().getName();
-            return effectNames.getOrDefault(effectType, StringUtils.capitalizeString(effectType));
+            return effectNames.getOrDefault(effectType, StringUtils.getNicerString(effectType));
         } else {
             if (type.name().equals("WATER")){
                 return "Water Bottle";
             }
-            return effectNames.getOrDefault(type.name(), StringUtils.capitalizeString(type.name()));
+            return effectNames.getOrDefault(type.name(), StringUtils.getNicerString(type.name()));
         }
     }
 
@@ -62,14 +63,14 @@ public class StringUtils {
     }
 
     public static String itemName(ItemStack itemStack) {
-        String item = StringUtils.capitalizeString(itemStack.getType().toString());
+        String item = StringUtils.getNicerString(itemStack.getType().toString());
         if (PotionUtils.isPotion(itemStack)) {
             PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
             assert meta != null;
             PotionType potionType = meta.getBasePotionData().getType();
             if (itemStack.getType() == Material.TIPPED_ARROW) {
                 if (potionType.getEffectType() != null) {
-                    item = "Arrow of " + StringUtils.capitalizeString(StringUtils.prettierEffectName(potionType));
+                    item = "Arrow of " + StringUtils.getNicerString(StringUtils.prettierEffectName(potionType));
                 } else {
                     if (potionType.equals(PotionType.UNCRAFTABLE)) {
                         item = "Uncraftable Tipped Arrow";
@@ -79,9 +80,9 @@ public class StringUtils {
                 }
             } else {
                 if (potionType.getEffectType() != null)
-                    item = StringUtils.capitalizeString(itemStack.getType().toString()) + " of " + StringUtils.capitalizeString(StringUtils.prettierEffectName(potionType));
+                    item = StringUtils.getNicerString(itemStack.getType().toString()) + " of " + StringUtils.getNicerString(StringUtils.prettierEffectName(potionType));
                 else {
-                    item = StringUtils.prettierEffectName(potionType) + " " + StringUtils.capitalizeString(itemStack.getType().toString());
+                    item = StringUtils.prettierEffectName(potionType) + " " + StringUtils.getNicerString(itemStack.getType().toString());
                 }
             }
         }
