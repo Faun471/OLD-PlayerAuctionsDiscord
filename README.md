@@ -2,6 +2,11 @@
 
 [![GitHub release](https://badgen.net/github/release/Faun471/PlayerAuctionsDiscord)](https://github.com/Faun471/PlayerAuctionsDiscord/releases)
 
+## Important
+
+[PlayerAuctions](https://www.spigotmc.org/resources/%E2%AD%90-player-auctions%E2%AD%90-%E2%9E%A2-let-your-players-sell-items-1-7-1-17-1.83073/) now has an addon system, and PlayerAuctionsDiscord is now an official addon that will be maintained by the author. I highly recommend using it instead of this one.
+
+
 ## Introduction
 
 I was using DiscordSRV's alerts.yml feature to send embeds for player auctions, but I found out that potions, tipped arrows, player heads, etc., are either impossible to implement, or would be too complicated. 
@@ -9,7 +14,7 @@ This plugin aims to solve that.
 
 This plugin sends an embed to a discord channel when someone sells, buys, or removes an item in the auction house. Here's a quick example.
 
-![](https://i.imgur.com/Nz6WLTh.png "Embeds")
+![](https://i.imgur.com/giUvvmS.png "Embeds")
 
 ## Required Dependencies
 
